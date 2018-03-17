@@ -1,4 +1,4 @@
-package app
+package mcbe
 
 /*
 	Medaka
@@ -18,7 +18,7 @@ import (
 	"time"
 
 	"github.com/beito123/medaka"
-	"github.com/beito123/medaka/command"
+	"github.com/beito123/medaka/cmd"
 	"github.com/beito123/medaka/lang"
 	"github.com/beito123/medaka/util"
 )
@@ -34,8 +34,8 @@ type Server struct {
 	Path string
 
 	Logger        medaka.Logger
-	CommandReader command.Reader
-	CommandSender command.Sender
+	CommandReader cmd.Reader
+	CommandSender cmd.Sender
 	Lang          *lang.Lang
 
 	settings *util.Config
@@ -275,7 +275,7 @@ func (ser *Server) checkConsole() {
 	}
 }
 
-func (ser *Server) sendCommand(sender command.Sender, cmd string) {
+func (ser *Server) sendCommand(sender cmd.Sender, cmd string) {
 	//
 }
 

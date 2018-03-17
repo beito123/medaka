@@ -11,7 +11,7 @@ var _Assets01626ec553c190a58d74919f914b2131f2025f75 = "# Lang file in Japanese\r
 var _Assets25a0b1481b5ef1da0a69fc5fc4cc4aa70e567123 = "#Advanced config file for Medaka\r\n\r\nsettings:\r\n  language: \"eng\"\r\n  force-language: false\r\n  shutdown-message: \"Server closed\"\r\n  query-plugins: true\r\n  async-workers: auto\r\n  debug: true"
 
 // Assets returns go-assets FileSystem
-var Assets = assets.NewFileSystem(map[string][]string{"/static": []string{"medaka.yml"}, "/static/lang": []string{"eng.ini", "jpn.ini"}, "/": []string{"static"}}, map[string]*assets.File{
+var Assets = assets.NewFileSystem(map[string][]string{"/": []string{"static"}, "/static": []string{"medaka.yml"}, "/static/lang": []string{"eng.ini", "jpn.ini"}}, map[string]*assets.File{
 	"/": &assets.File{
 		Path:     "/",
 		FileMode: 0x800001ff,

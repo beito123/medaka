@@ -7,7 +7,7 @@ LDFLAGS = -ldflags="-s -w -X \"github.com/beito123/medaka.Version=$(VERSION)\" -
 # LDFLAGS := -ldflags=" -extldflags \"-static\""
 
 #Build path
-BUILDPATH := ./cmd/medaka/
+BUILDPATH := ./app/medaka/
 ASSETPATH := ./data
 
 # Go commands
@@ -36,9 +36,9 @@ endif
 # Commands
 all: medaka
 
-medaka: cmd/medaka
+medaka: app/medaka
 
-cmd/medaka: $(SRCS)
+app/medaka: $(SRCS)
 	@echo "Ready assets..."
 	@cd $(ASSETPATH);\
 		$(GOASSETBUILDER) --package=data ./static/ > assets.go

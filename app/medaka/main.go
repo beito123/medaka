@@ -16,8 +16,8 @@ import (
 	"path/filepath"
 
 	"github.com/Sirupsen/logrus"
-	"github.com/beito123/medaka/app"
 	"github.com/beito123/medaka/log"
+	"github.com/beito123/medaka/mcbe"
 	"github.com/mattn/go-colorable"
 )
 
@@ -43,7 +43,7 @@ func main() {
 
 	//server := medaka.NewServer(logger, filepath.Dir(path))
 
-	server := &app.Server{
+	server := &mcbe.Server{
 		Path:          filepath.Dir(path),
 		Logger:        logger,
 		CommandReader: NewReader(),
