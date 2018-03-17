@@ -4,3 +4,4 @@
 #Ignore dirs
 dist/
 test/
+.vscode/
