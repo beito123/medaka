@@ -51,33 +51,35 @@ const (
 func Tokenize(str string) []string {
 	var res []string
 
-	r := []rune(str)
+	lenEscape := len(ESCAPE)
 
 	off := 0
-	for off <= len(r)-1 {
-		index := strings.Index(string(r[off:]), ESCAPE)
-		s := r[off:]
-		if index >= 0 {
-			switch string(s[index : index+2]) {
-			case Black, DarkBlue, DarkGreen, DarkAqua, DarkRed, Purple, Gold, Gray:
-				fallthrough
-			case DarkGray, Blue, Green, Aqua, Red, LightPurple, Yellow, White:
-				fallthrough
-			case Obfuscated, Bold, Strikethrough, Underline, Italic, Reset:
-				if index > 0 {
-					res = append(res, string(s[:index]))
-				}
 
-				res = append(res, string(s[index:index+2]))
-			default:
-				res = append(res, string(s[:index+2]))
-			}
-
-			off += index + 2
-		} else {
-			res = append(res, string(s[:]))
+	for off < len(str) {
+		s := str[off:]
+		index := strings.Index(s, ESCAPE)
+		if index < 0 {
+			res = append(res, s)
 			break
 		}
+
+		codeIndex := index + lenEscape
+		if len(s[codeIndex:]) < 1 { //if left 0
+			res = append(res, s[:codeIndex])
+			break
+		}
+
+		code := string([]rune(s[index:])[1:2])
+
+		last := index + lenEscape + len(code)
+
+		if index > 0 {
+			res = append(res, s[:index])
+		}
+
+		res = append(res, s[index:last])
+
+		off += last
 	}
 
 	return res
