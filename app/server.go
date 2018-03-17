@@ -19,7 +19,7 @@ import (
 
 	"github.com/beito123/medaka"
 	"github.com/beito123/medaka/command"
-	"github.com/beito123/medaka/log"
+	"github.com/beito123/medaka/lang"
 	"github.com/beito123/medaka/util"
 )
 
@@ -36,6 +36,9 @@ type Server struct {
 	Logger        medaka.Logger
 	CommandReader command.Reader
 	CommandSender command.Sender
+	Lang          *lang.Lang
+
+	settings *util.Config
 
 	running bool
 	stopped bool
@@ -62,7 +65,7 @@ func (ser *Server) Start() {
 		err := os.MkdirAll(ser.Path+"/worlds", 0777)
 		if err != nil {
 			ser.Logger.Fatal("Couldn't make worlds directory.")
-			ser.Logger.Err(err, nil)
+			panic(err)
 		}
 	}
 
@@ -70,7 +73,7 @@ func (ser *Server) Start() {
 		err := os.MkdirAll(ser.Path+"/players", 0777)
 		if err != nil {
 			ser.Logger.Fatal("Couldn't make players directory.")
-			ser.Logger.Err(err, nil)
+			panic(err)
 		}
 	}
 
@@ -80,15 +83,16 @@ func (ser *Server) Start() {
 		CopyResource("/static/medaka.yml", ser.Path+"/medaka.yml")
 	}
 
-	settings := util.NewConfig()
-	settings.Load(ser.Path+"/medaka.yml", util.YAML, nil)
+	ser.settings = util.NewConfig()
+	ser.settings.Load(ser.Path+"/medaka.yml", util.YAML, nil)
 
 	//set log debug for logger from medaka.yml
+	ser.Logger.SetLogDebug(ser.GetSettingsBool("settings.debug"))
 
 	ser.Logger.Info("Loading server properties...")
 
 	config := util.NewConfig()
-	config.Load(ser.Path+"/server.properties", util.Properties, map[string]interface{}{
+	err := config.Load(ser.Path+"/server.properties", util.Properties, map[string]interface{}{
 		"motd":                         "A Minecraft Server",
 		"sub-motd":                     nil,
 		"server-port":                  19132,
@@ -116,9 +120,47 @@ func (ser *Server) Start() {
 		"xbox-auth":                    false,
 	})
 
+	if err != nil {
+		ser.Logger.Fatal("Couldn't load server.properties.")
+		panic(err)
+	}
+
 	//Lang
 
+	supportedLang := []string{
+		"eng",
+		"jpn",
+	}
+
+	language := ser.GetSettingString("settings.language")
+	supported := false
+	for i := range supportedLang {
+		if supportedLang[i] == language {
+			supported = true
+			break
+		}
+	}
+
+	if !supported {
+		language = "eng"
+	}
+
+	langReader := LoadLangFile(language)
+	if langReader == nil {
+		panic("Couldn't get a language file.")
+	}
+
+	ser.Lang = &lang.Lang{}
+	err = ser.Lang.LoadReader(langReader)
+	if err != nil {
+		ser.Logger.Fatal("Couldn't load language.")
+		panic(err)
+	}
+
+	ser.Logger.Info(ser.Lang.Message("medaka.lang.loaded"))
+
 	//start message
+	ser.Logger.Info(ser.Lang.Message("medaka.server.start", medaka.SupportMCBEVersion))
 
 	//ready async task//decide pool size//workers
 
@@ -184,7 +226,7 @@ func (ser *Server) Start() {
 
 	//default level
 
-	if config.HasChanged {
+	if config.HasChanged() {
 		config.Save()
 	}
 
@@ -267,6 +309,22 @@ func (ser *Server) forceShutdown() {
 	//world
 }
 
+func (ser *Server) GetSettings() *util.Config {
+	return ser.settings
+}
+
+func (ser *Server) GetSettingsBool(key string) bool {
+	return ser.settings.GetBool(key)
+}
+
+func (ser *Server) GetSettingString(key string) string {
+	return ser.settings.GetString(key)
+}
+
+func (ser *Server) GetSettingInt(key string) int {
+	return ser.settings.GetInt(key)
+}
+
 func (ser *Server) handlePanic(err interface{}) {
 	text := ""
 	switch e := err.(type) {
@@ -281,7 +339,7 @@ func (ser *Server) handlePanic(err interface{}) {
 	//TODO: crashdump
 
 	ser.Logger.Fatal("Panic: " + text)
-	ser.Logger.Trace(log.Dump(1, 8))
+	ser.Logger.Trace(medaka.Dump(1, medaka.TraceLimit))
 
 	ser.forceShutdown()
 }

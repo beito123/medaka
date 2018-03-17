@@ -13,6 +13,7 @@ package util
 
 import (
 	"errors"
+	"io"
 	"os"
 
 	"github.com/spf13/viper"
@@ -49,7 +50,9 @@ type Config struct {
 	format  ConfigFormat
 	Content *viper.Viper
 
-	HasChanged bool
+	hasChanged bool
+	readOnly   bool
+	correct    bool
 }
 
 //Path returns file path
@@ -62,28 +65,33 @@ func (config *Config) Format() ConfigFormat {
 	return config.format
 }
 
+func (config *Config) HasChanged() bool {
+	return config.hasChanged
+}
+
+func (config *Config) ReadOnly() bool {
+	return config.readOnly
+}
+
 //Load loads the file with path and type
 func (config *Config) Load(path string, format ConfigFormat, def map[string]interface{}) error {
+	if config.correct {
+		return errors.New("Already loaded.")
+	}
+
+	config.path = path
+	config.readOnly = false
+	config.hasChanged = false
+
+	config.Content = viper.New()
+
 	if def == nil {
 		def = make(map[string]interface{})
 	}
 
-	config.path = path
-	config.Content = viper.New()
-	config.HasChanged = false
-
 	config.SetDefaults(def)
 
-	switch format {
-	case Properties:
-		config.Content.SetConfigType("Properties")
-	case YAML:
-		config.Content.SetConfigType("YAML")
-	case TOML:
-		config.Content.SetConfigType("TOML")
-	case JSON:
-		config.Content.SetConfigType("JSON")
-	default:
+	if !config.setFormat(format) {
 		return errors.New("The config type doesn't support.")
 	}
 
@@ -103,7 +111,52 @@ func (config *Config) Load(path string, format ConfigFormat, def map[string]inte
 		return err
 	}
 
+	config.correct = true
+
 	return nil
+}
+
+//LoadReader loads the file with reader and type
+func (config *Config) LoadReader(reader io.Reader, format ConfigFormat) error {
+	if config.correct {
+		return errors.New("Already loaded.")
+	}
+
+	config.path = ""
+	config.readOnly = true
+	config.hasChanged = false
+
+	config.Content = viper.New()
+
+	if !config.setFormat(format) {
+		return errors.New("The config type doesn't support.")
+	}
+
+	err := config.Content.ReadConfig(reader)
+	if err != nil {
+		return err
+	}
+
+	config.correct = true
+
+	return nil
+}
+
+func (config *Config) setFormat(format ConfigFormat) bool {
+	switch format {
+	case Properties:
+		config.Content.SetConfigType("Properties")
+	case YAML:
+		config.Content.SetConfigType("YAML")
+	case TOML:
+		config.Content.SetConfigType("TOML")
+	case JSON:
+		config.Content.SetConfigType("JSON")
+	default:
+		return false
+	}
+
+	return true
 }
 
 //Reset resets the config
@@ -113,20 +166,32 @@ func (config *Config) Reset() {
 
 //Save saves as file
 func (config *Config) Save() error {
-	config.HasChanged = false
+	if config.readOnly {
+		return errors.New("The config is enable readonly!")
+	}
+
+	config.hasChanged = false
 
 	return config.Content.WriteConfigAs(config.path)
 }
 
 //SetDefault set default value to Config
 func (config *Config) SetDefault(key string, value interface{}) {
-	config.HasChanged = true
+	if config.readOnly {
+		return
+	}
+
+	config.hasChanged = true
 
 	config.Content.SetDefault(key, value)
 }
 
 //SetDefaults set default sets to Config
 func (config *Config) SetDefaults(def map[string]interface{}) {
+	if config.readOnly {
+		return
+	}
+
 	for k, v := range def {
 		config.SetDefault(k, v)
 	}
@@ -139,7 +204,11 @@ func (config *Config) Get(key string) interface{} {
 
 //Set sets a value with key
 func (config *Config) Set(key string, value interface{}) {
-	config.HasChanged = true
+	if config.readOnly {
+		return
+	}
+
+	config.hasChanged = true
 
 	config.Content.Set(key, value)
 }

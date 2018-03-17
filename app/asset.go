@@ -1,13 +1,5 @@
 package app
 
-import (
-	"io"
-	"net/http"
-	"os"
-
-	"github.com/beito123/medaka/data"
-)
-
 /*
 	Medaka
 
@@ -19,8 +11,25 @@ import (
 	(at your option) any later version.
 */
 
+import (
+	"io"
+	"net/http"
+	"os"
+
+	"github.com/beito123/medaka/data"
+)
+
 func OpenResource(path string) (http.File, error) {
 	return data.Assets.Open(path)
+}
+
+func ExistResource(path string) bool {
+	_, err := OpenResource(path)
+	if err != nil {
+		return false
+	}
+
+	return true
 }
 
 func CopyResource(path string, to string) error {

@@ -12,11 +12,11 @@ package log
 */
 
 import (
-	"regexp"
-	"runtime"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/beito123/medaka"
 )
 
 const DefaultTimestampFormat = "15:04:05" //2006-01-02 15:04:05
@@ -71,7 +71,7 @@ func (lvl Level) String() string {
 	return "unknown"
 }
 
-func NewLogger(out Std) *consoleLogger {
+func NewLogger(out medaka.StdLogger) *consoleLogger {
 	return &consoleLogger{
 		Out:             out,
 		OutLevel:        LevelDebug,
@@ -81,7 +81,7 @@ func NewLogger(out Std) *consoleLogger {
 
 //consoleLogger is ...
 type consoleLogger struct {
-	Out             Std
+	Out             medaka.StdLogger
 	OutLevel        Level
 	TimestampFormat string
 }
@@ -112,9 +112,9 @@ func (log *consoleLogger) Debug(msg string) {
 }
 
 //Err logs the error
-func (log *consoleLogger) Err(err error, trace []*CallerInfo) {
+func (log *consoleLogger) Err(err error, trace []*medaka.CallerInfo) {
 	if trace == nil {
-		trace = Dump(1, 8)
+		trace = medaka.Dump(1, medaka.TraceLimit)
 	}
 
 	e := "Error: " + err.Error()
@@ -124,9 +124,9 @@ func (log *consoleLogger) Err(err error, trace []*CallerInfo) {
 	log.Trace(trace)
 }
 
-func (log *consoleLogger) Trace(trace []*CallerInfo) {
+func (log *consoleLogger) Trace(trace []*medaka.CallerInfo) {
 	if trace == nil {
-		trace = Dump(1, 8)
+		trace = medaka.Dump(1, medaka.TraceLimit)
 	}
 
 	stack := "Stacktrace:\n"
@@ -168,40 +168,4 @@ func (log *consoleLogger) Log(level Level, msg string) {
 	text := color + "[" + time + "] [" + lvl + "] " + msg + Reset
 
 	log.Out.Print(text)
-}
-
-type Std interface {
-	Print(...interface{})
-}
-
-//Thank you: http://sgykfjsm.github.io/blog/2016/01/20/golang-function-tracing/
-
-var regStack = regexp.MustCompile(`^(\S.+)\.(\S.+)$`)
-
-type CallerInfo struct {
-	PackageName  string
-	FunctionName string
-	FileName     string
-	FileLine     int
-}
-
-func Dump(skip int, count int) (callerInfo []*CallerInfo) {
-	for i := 1; i <= count; i++ {
-		pc, _, _, ok := runtime.Caller(skip + i)
-		if !ok {
-			break
-		}
-
-		fn := runtime.FuncForPC(pc)
-		fileName, fileLine := fn.FileLine(pc)
-
-		_fn := regStack.FindStringSubmatch(fn.Name())
-		callerInfo = append(callerInfo, &CallerInfo{
-			PackageName:  _fn[1],
-			FunctionName: _fn[2],
-			FileName:     fileName,
-			FileLine:     fileLine,
-		})
-	}
-	return
 }

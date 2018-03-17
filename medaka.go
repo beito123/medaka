@@ -12,7 +12,8 @@ package medaka
 */
 
 import (
-	"github.com/beito123/medaka/log"
+	"regexp"
+	"runtime"
 )
 
 var (
@@ -38,6 +39,10 @@ const (
 	SupportMCBEVersion = "1.2.0"
 )
 
+const (
+	TraceLimit = 30 //For debug
+)
+
 //Logger is basic logger interface
 type Logger interface {
 	Info(msg string)
@@ -45,7 +50,43 @@ type Logger interface {
 	Warn(msg string)
 	Fatal(msg string)
 	Debug(msg string)
-	Err(err error, trace []*log.CallerInfo)
-	Trace(trace []*log.CallerInfo)
+	Err(err error, trace []*CallerInfo)
+	Trace(trace []*CallerInfo)
 	SetLogDebug(bool)
+}
+
+type StdLogger interface {
+	Print(...interface{})
+}
+
+//Thanks: http://sgykfjsm.github.io/blog/2016/01/20/golang-function-tracing/
+
+var regStack = regexp.MustCompile(`^(\S.+)\.(\S.+)$`)
+
+type CallerInfo struct {
+	PackageName  string
+	FunctionName string
+	FileName     string
+	FileLine     int
+}
+
+func Dump(skip int, count int) (callerInfo []*CallerInfo) {
+	for i := 1; i <= count; i++ {
+		pc, _, _, ok := runtime.Caller(skip + i)
+		if !ok {
+			break
+		}
+
+		fn := runtime.FuncForPC(pc)
+		fileName, fileLine := fn.FileLine(pc)
+
+		_fn := regStack.FindStringSubmatch(fn.Name())
+		callerInfo = append(callerInfo, &CallerInfo{
+			PackageName:  _fn[1],
+			FunctionName: _fn[2],
+			FileName:     fileName,
+			FileLine:     fileLine,
+		})
+	}
+	return
 }
