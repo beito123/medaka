@@ -76,6 +76,10 @@ func (ser *Server) Start() {
 
 	//load medaka.yml
 	ser.Logger.Info("Loading medaka.yml...")
+	if !util.ExistFile(ser.Path + "/medaka.yml") {
+		CopyResource("/static/medaka.yml", ser.Path+"/medaka.yml")
+	}
+
 	settings := util.NewConfig()
 	settings.Load(ser.Path+"/medaka.yml", util.YAML, nil)
 
