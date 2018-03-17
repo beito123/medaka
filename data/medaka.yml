@@ -1,0 +1,9 @@
+#Advanced config file for Medaka
+
+settings:
+  language: "eng"
+  force-language: false
+  shutdown-message: "Server closed"
+  query-plugins: true
+  async-workers: auto
+  debug: true

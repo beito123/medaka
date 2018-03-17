@@ -1,0 +1,26 @@
+#Dependency file for medaka
+
+#
+required = [
+	# go-assets-builder https://github.com/jessevdk/go-assets-builder
+	"github.com/jessevdk/go-assets-builder"
+]
+
+# Viper https://github.com/spf13/viper
+[[constraint]]
+  branch = "master"
+  name = "github.com/spf13/viper"
+
+# Logrus https://github.com/Sirupsen/logrus
+[[constraint]]
+  name = "github.com/Sirupsen/logrus"
+  version = "v1.0.5"
+
+# go-colorable https://github.com/mattn/go-colorable
+[[constraint]]
+  name = "github.com/mattn/go-colorable"
+  version = "v0.0.9"
+
+[prune]
+  go-tests = true
+  unused-packages = true

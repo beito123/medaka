@@ -1,0 +1,7 @@
+#Ignore files
+medaka
+*.exe
+
+#Ignore dirs
+dist/
+test/
