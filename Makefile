@@ -8,7 +8,7 @@ LDFLAGS = -ldflags="-s -w -X \"github.com/beito123/medaka.Version=$(VERSION)\" -
 
 #Build path
 BUILDPATH := ./cmd/medaka/
-ASSETPATH := ./data/
+ASSETPATH := ./data
 
 # Go commands
 GOCMD=go
@@ -40,7 +40,8 @@ medaka: cmd/medaka
 
 cmd/medaka: $(SRCS)
 	@echo "Ready assets..."
-	@$(GOASSETBUILDER) --package=medaka $(ASSETPATH) > assets.go
+	@cd $(ASSETPATH);\
+		$(GOASSETBUILDER) --package=data ./static/ > assets.go
 	@echo "Building..."
 	@$(GOBUILD) -a -tags netgo -installsuffix netgo $(LDFLAGS) -o $(BINARYNAME) $(BUILDPATH)
 
