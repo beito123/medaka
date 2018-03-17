@@ -23,7 +23,7 @@ Run the under commands to build.
 
 ### Support environment
 
-    Go(v1.10 >), Dep
+    Go(>v1.10), Dep
 
 ## License
 
@@ -106,7 +106,7 @@ Depがない場合は、以下のコマンドを実行してDepをインスト�
 
 ### サポート環境
 
-    Go(v1.10 >), Dep
+    Go(>v1.10), Dep
 
 ## ライセンス
 
