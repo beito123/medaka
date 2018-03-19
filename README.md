@@ -1,6 +1,6 @@
 # Medaka
 
-![Image](https://cldup.com/dWMoUCl7CU.png)
+![Image](https://cldup.com/WxrSZhzMED.png)
 
     This is a project to learn Go for me
     So This is very unstable!
@@ -83,14 +83,14 @@ This project is based on PocketMine-MP!
 
 # Medaka (Japanese)
 
-![Image](https://cldup.com/dWMoUCl7CU.png)
+![Image](https://cldup.com/WxrSZhzMED.png)
 
     このプロジェクトは私がGo言語を学習するためのものです。
     そのため、非常に不安定です！
 
 このソフトウェアは、Go言語で書かれたサーバーソフトウェアです。
 
-これらのコードは [PocketMine-MP](https://www.github.com/pmmp) (by [PocketMine-Team](https://www.github.com/pmmp)) をGoに書き直したものです。
+これらのコードは [PocketMine-MP](https://www.github.com/pmmp) (by [PocketMine-Team](https://www.github.com/pmmp)) を元にGoで書かれています。
 
 ## ビルド
 
@@ -131,7 +131,7 @@ Depがない場合は、以下のコマンドを実行してDepをインスト�
 
 #### 積極的なライブラリの使用
 
-私一人で全て書くのは限界があるためです。(時間も技術もない)
+私一人で全て書くのは限界があるためです。(no time & no skill)
 
 ## 謝辞
 
