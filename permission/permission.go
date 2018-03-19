@@ -1,4 +1,4 @@
-package cmd
+package permission
 
 /*
 	Medaka
@@ -11,13 +11,4 @@ package cmd
 	(at your option) any later version.
 */
 
-//Reader is basic command reader interface
-type Reader interface {
-	Line() string
-}
-
-//Sender implements to sender of command
-type Sender interface {
-	Name() string
-	SendMessage(msg string)
-}
+//TODO: write

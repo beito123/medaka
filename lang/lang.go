@@ -59,19 +59,35 @@ func (lang *Lang) LoadReader(reader io.Reader) error {
 	return nil
 }
 
-func (lang *Lang) Message(key string, args ...string) string {
-	msg := lang.config.GetString(key)
-	if msg == "" {
-		return "NULL:" + key
+func (lang *Lang) Translate(text *Text) string {
+	msg := lang.config.GetString(text.Key)
+	if len(msg) <= 0 {
+		return "%" + text.Key
 	}
 
-	for i, v := range args {
+	for i, v := range text.Args {
+		if v[:1] == "%" { // %some.message
+			s := lang.config.GetString(v[1:])
+			if len(s) > 0 {
+				v = s
+			}
+		}
+
 		msg = strings.Replace(msg, "{%"+strconv.Itoa(i)+"}", v, -1)
 	}
+
+	msg = text.Prefix + msg
 
 	if len(lang.Prefix) > 0 {
 		msg = "[" + lang.Prefix + "] " + msg
 	}
 
 	return msg
+}
+
+func (lang *Lang) TranslateWithString(key string, args ...string) string {
+	return lang.Translate(&Text{
+		Key:  key,
+		Args: args,
+	})
 }

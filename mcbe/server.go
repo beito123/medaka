@@ -34,11 +34,12 @@ type Server struct {
 	Path string
 
 	Logger        medaka.Logger
-	CommandReader cmd.Reader
-	CommandSender cmd.Sender
+	CommandReader medaka.CommandReader
+	CommandSender medaka.CommandSender
 	Lang          *lang.Lang
 
-	settings *util.Config
+	settings   *util.Config
+	commandMap medaka.CommandMap
 
 	running bool
 	stopped bool
@@ -87,7 +88,7 @@ func (ser *Server) Start() {
 	ser.settings.Load(ser.Path+"/medaka.yml", util.YAML, nil)
 
 	//set log debug for logger from medaka.yml
-	ser.Logger.SetLogDebug(ser.GetSettingsBool("settings.debug"))
+	ser.Logger.SetLogDebug(ser.SettingBool("settings.debug"))
 
 	ser.Logger.Info("Loading server properties...")
 
@@ -132,7 +133,7 @@ func (ser *Server) Start() {
 		"jpn",
 	}
 
-	language := ser.GetSettingString("settings.language")
+	language := ser.SettingString("settings.language")
 	supported := false
 	for i := range supportedLang {
 		if supportedLang[i] == language {
@@ -157,10 +158,10 @@ func (ser *Server) Start() {
 		panic(err)
 	}
 
-	ser.Logger.Info(ser.Lang.Message("medaka.lang.loaded"))
+	ser.Logger.Info(ser.TranslateWithString("medaka.lang.loaded"))
 
 	//start message
-	ser.Logger.Info(ser.Lang.Message("medaka.server.start", medaka.SupportMCBEVersion))
+	ser.Logger.Info(ser.TranslateWithString("medaka.server.start", medaka.SupportMCBEVersion))
 
 	//ready async task//decide pool size//workers
 
@@ -192,6 +193,7 @@ func (ser *Server) Start() {
 
 	//consoleSender
 	//simpleCommandMap
+	ser.initCommands()
 
 	//init
 	//Entity
@@ -263,27 +265,38 @@ func (ser *Server) tick(tick time.Time) bool {
 func (ser *Server) checkConsole() {
 	//TODO: writes simple command system
 	text := ser.CommandReader.Line()
-	ser.Logger.Notice("Command:" + fmt.Sprintf("%#v", text))
-	if strings.Index(text, "stop") >= 0 {
-		ser.Logger.Info("Stopping the server...")
 
-		ser.Shutdown()
+	exp := strings.Split(text, " ")
+
+	cmd := ser.commandMap.Command(exp[0])
+	if cmd == nil {
+		ser.Logger.Info(ser.TranslateWithString("command.unknown"))
+		return
 	}
 
-	if strings.Index(text, "version") >= 0 {
-		ser.Logger.Notice("version:" + medaka.Version + ", revision:" + medaka.Revision)
+	var args []string
+	if len(exp) > 1 {
+		args = exp[1:]
 	}
+
+	ser.SendCommand(ser.CommandSender, cmd, args)
 }
 
-func (ser *Server) sendCommand(sender cmd.Sender, cmd string) {
-	//
+func (ser *Server) SendCommand(sender medaka.CommandSender, command medaka.Command, args []string) {
+	//event
+
+	err := command.Execute(sender, args)
+	if err != nil {
+		ser.Logger.Fatal("Happened the error while executeing the command.")
+		ser.Logger.Err(err, nil)
+	}
 }
 
 func (ser *Server) Shutdown() {
 	ser.running = false
 }
 
-func (ser *Server) forceShutdown() {
+func (ser *Server) forceShutdown() { //TODO: implements shutdown thread...
 	if ser.stopped {
 		return
 	}
@@ -301,28 +314,52 @@ func (ser *Server) forceShutdown() {
 
 	ser.Shutdown()
 
+	ser.Logger.Info(ser.TranslateWithString("medaka.server.stop"))
+
 	//Save and close...
 
 	//all kick
+	//players
 	//network
 	//plugin
 	//world
 }
 
-func (ser *Server) GetSettings() *util.Config {
+func (ser *Server) Settings() *util.Config {
 	return ser.settings
 }
 
-func (ser *Server) GetSettingsBool(key string) bool {
+func (ser *Server) SettingBool(key string) bool {
 	return ser.settings.GetBool(key)
 }
 
-func (ser *Server) GetSettingString(key string) string {
+func (ser *Server) SettingString(key string) string {
 	return ser.settings.GetString(key)
 }
 
-func (ser *Server) GetSettingInt(key string) int {
+func (ser *Server) SettingInt(key string) int {
 	return ser.settings.GetInt(key)
+}
+
+func (ser *Server) Translate(text *lang.Text) string {
+	return ser.Lang.Translate(text)
+}
+
+func (ser *Server) TranslateWithString(key string, args ...string) string {
+	return ser.Translate(&lang.Text{
+		Key:  key,
+		Args: args,
+	})
+}
+
+func (ser *Server) initCommands() {
+	ser.commandMap = &cmd.SimpleMap{
+		CommandMap: make(map[string]medaka.Command),
+		AliasMap:   make(map[string]medaka.Command),
+	}
+
+	ser.commandMap.Add(&VersionCommand{})
+	ser.commandMap.Add(&StopCommand{})
 }
 
 func (ser *Server) handlePanic(err interface{}) {

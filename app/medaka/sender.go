@@ -1,6 +1,10 @@
 package main
 
-import "github.com/beito123/medaka"
+import (
+	"github.com/beito123/medaka"
+	"github.com/beito123/medaka/lang"
+	"github.com/beito123/medaka/mcbe"
+)
 
 /*
 	Medaka
@@ -28,6 +32,22 @@ func (sender *ConsoleSender) Name() string {
 	return "Console"
 }
 
+func (sender *ConsoleSender) server() *mcbe.Server {
+	return mcbe.Instance()
+}
+
 func (sender *ConsoleSender) SendMessage(msg string) {
 	sender.logger.Info(msg)
+}
+
+func (sender *ConsoleSender) SendMessageWithText(text *lang.Text) {
+	sender.SendMessage(sender.server().Translate(text))
+}
+
+func (sender *ConsoleSender) Permission() int {
+	return 0
+}
+
+func (sender *ConsoleSender) HasPermission(per string) bool {
+	return true //TODO: check nodes via Server
 }

@@ -11,18 +11,44 @@ package medaka
 	(at your option) any later version.
 */
 
-//NewError generates a MedakaError
-func NewError(msg string) Error {
-	return Error{
-		Message: msg,
-	}
-}
+type ErrorType int
+
+const (
+	ErrorMedaka ErrorType = iota
+	ErrorServer
+	ErrorNetwork
+	ErrorPermission
+	ErrorCommand
+	ErrorPlugin
+)
 
 //Error is application error on Medaka
-type Error struct {
-	Message string
+type Error interface {
+	error
+	Type() ErrorType
 }
 
-func (e Error) Error() string {
-	return e.Message
+func IsMedakaError(err error) bool {
+	e, ok := err.(Error)
+	return ok && e.Type() == ErrorMedaka
+}
+
+func IsServerError(err error) bool {
+	e, ok := err.(Error)
+	return ok && e.Type() == ErrorServer
+}
+
+func IsNetworkError(err error) bool {
+	e, ok := err.(Error)
+	return ok && e.Type() == ErrorNetwork
+}
+
+func IsPermissionError(err error) bool {
+	e, ok := err.(Error)
+	return ok && e.Type() == ErrorPermission
+}
+
+func IsPluginError(err error) bool {
+	e, ok := err.(Error)
+	return ok && e.Type() == ErrorPlugin
 }
