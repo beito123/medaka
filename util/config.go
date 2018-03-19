@@ -76,7 +76,7 @@ func (config *Config) ReadOnly() bool {
 //Load loads the file with path and type
 func (config *Config) Load(path string, format ConfigFormat, def map[string]interface{}) error {
 	if config.correct {
-		return errors.New("Already loaded.")
+		return errors.New("util.Config.Load: Already loaded.")
 	}
 
 	config.path = path
@@ -92,7 +92,7 @@ func (config *Config) Load(path string, format ConfigFormat, def map[string]inte
 	config.SetDefaults(def)
 
 	if !config.setFormat(format) {
-		return errors.New("The config type doesn't support.")
+		return errors.New("util.Config.Load: The config type doesn't support.")
 	}
 
 	if !ExistFile(config.path) {
@@ -119,7 +119,7 @@ func (config *Config) Load(path string, format ConfigFormat, def map[string]inte
 //LoadReader loads the file with reader and type
 func (config *Config) LoadReader(reader io.Reader, format ConfigFormat) error {
 	if config.correct {
-		return errors.New("Already loaded.")
+		return errors.New("util.Config.LoadReader: Already loaded.")
 	}
 
 	config.path = ""
@@ -129,7 +129,7 @@ func (config *Config) LoadReader(reader io.Reader, format ConfigFormat) error {
 	config.Content = viper.New()
 
 	if !config.setFormat(format) {
-		return errors.New("The config type doesn't support.")
+		return errors.New("util.Config.LoadReader: The config type doesn't support.")
 	}
 
 	err := config.Content.ReadConfig(reader)
@@ -167,7 +167,7 @@ func (config *Config) Reset() {
 //Save saves as file
 func (config *Config) Save() error {
 	if config.readOnly {
-		return errors.New("The config is enable readonly!")
+		return errors.New("util.Config.Save: The config is enable readonly!")
 	}
 
 	config.hasChanged = false

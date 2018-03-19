@@ -1,7 +1,5 @@
 package cmd
 
-import "github.com/beito123/medaka"
-
 /*
 	Medaka
 
@@ -12,6 +10,8 @@ import "github.com/beito123/medaka"
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
 */
+
+import "github.com/beito123/medaka"
 
 func IsAlreadyRegisteredError(err error) bool {
 	_, ok := err.(AlreadyRegisteredError)
