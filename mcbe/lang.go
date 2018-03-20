@@ -2,6 +2,7 @@ package mcbe
 
 import (
 	"io"
+	"strings"
 )
 
 /*
@@ -15,8 +16,31 @@ import (
 	(at your option) any later version.
 */
 
+var SupportedLang = []string{
+	"eng",
+	"jpn",
+}
+
+const (
+	DefaultLang = "eng"
+)
+
+func IsSupportedLang(language string) bool {
+	lang := strings.ToLower(language)
+
+	supported := false
+	for i := range SupportedLang {
+		if SupportedLang[i] == lang {
+			supported = true
+			break
+		}
+	}
+
+	return supported
+}
+
 func LoadLangFile(language string) io.Reader {
-	langFile, err := OpenResource("/static/lang/" + language + ".ini")
+	langFile, err := OpenResource("/static/lang/" + strings.ToLower(language) + ".ini")
 	if err != nil {
 		return nil
 	}

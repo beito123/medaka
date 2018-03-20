@@ -128,22 +128,10 @@ func (ser *Server) Start() {
 
 	//Lang
 
-	supportedLang := []string{
-		"eng",
-		"jpn",
-	}
+	language := ser.SettingString("settings.language", DefaultLang)
 
-	language := ser.SettingString("settings.language", "eng")
-	supported := false
-	for i := range supportedLang {
-		if supportedLang[i] == language {
-			supported = true
-			break
-		}
-	}
-
-	if !supported {
-		language = "eng"
+	if !IsSupportedLang(language) {
+		language = DefaultLang
 	}
 
 	langReader := LoadLangFile(language)
