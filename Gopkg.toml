@@ -11,6 +11,11 @@ required = [
   branch = "master"
   name = "github.com/spf13/viper"
 
+# Cast https://github.com/spf13/cast
+[[constraint]]
+  name = "github.com/spf13/cast"
+  version = "v1.2.0"
+
 # Logrus https://github.com/Sirupsen/logrus
 [[constraint]]
   name = "github.com/Sirupsen/logrus"

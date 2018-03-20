@@ -60,14 +60,14 @@ func (lang *Lang) LoadReader(reader io.Reader) error {
 }
 
 func (lang *Lang) Translate(text *Text) string {
-	msg := lang.config.GetString(text.Key)
+	msg := lang.config.GetString(text.Key, "")
 	if len(msg) <= 0 {
 		return "%" + text.Key
 	}
 
 	for i, v := range text.Args {
 		if v[:1] == "%" { // %some.message
-			s := lang.config.GetString(v[1:])
+			s := lang.config.GetString(v[1:], "")
 			if len(s) > 0 {
 				v = s
 			}

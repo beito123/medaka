@@ -16,6 +16,7 @@ import (
 	"io"
 	"os"
 
+	"github.com/spf13/cast"
 	"github.com/spf13/viper"
 )
 
@@ -198,8 +199,13 @@ func (config *Config) SetDefaults(def map[string]interface{}) {
 }
 
 //Get gets a value with key
-func (config *Config) Get(key string) interface{} {
-	return config.Content.Get(key)
+func (config *Config) Get(key string, def interface{}) interface{} {
+	val := config.Content.Get(key)
+	if val == nil {
+		return def
+	}
+
+	return val
 }
 
 //Set sets a value with key
@@ -213,64 +219,69 @@ func (config *Config) Set(key string, value interface{}) {
 	config.Content.Set(key, value)
 }
 
+//Exist returns existing data with key
+func (config *Config) Exist(key string) bool {
+	return config.Content.IsSet(key)
+}
+
 //GetString gets a value as string with key
-func (config *Config) GetString(key string) string {
-	return config.Content.GetString(key)
+func (config *Config) GetString(key string, def string) string {
+	return cast.ToString(config.Get(key, def))
 }
 
 //GetBool gets a value as boolean with key
-func (config *Config) GetBool(key string) bool {
-	return config.Content.GetBool(key)
+func (config *Config) GetBool(key string, def bool) bool {
+	return cast.ToBool(config.Get(key, def))
 }
 
 //GetInt gets a value as int with key
-func (config *Config) GetInt(key string) int {
-	return config.Content.GetInt(key)
+func (config *Config) GetInt(key string, def int) int {
+	return cast.ToInt(config.Get(key, def))
 }
 
 //GetUInt gets a value as uint with key
-func (config *Config) GetUInt(key string) uint {
-	return uint(config.GetInt(key))
+func (config *Config) GetUInt(key string, def uint) uint {
+	return cast.ToUint(config.Get(key, def))
 }
 
 //GetInt64 gets a value as int64 with key
-func (config *Config) GetInt64(key string) int64 {
-	return config.Content.GetInt64(key)
+func (config *Config) GetInt64(key string, def int64) int64 {
+	return cast.ToInt64(config.Get(key, def))
 }
 
 //GetUInt64 gets a value as uint64 with key
-func (config *Config) GetUInt64(key string) uint64 {
-	return uint64(config.GetInt64(key))
+func (config *Config) GetUInt64(key string, def uint64) uint64 {
+	return cast.ToUint64(config.Get(key, def))
 }
 
 //GetFloat32 gets a value as float32 with key
-func (config *Config) GetFloat32(key string) float32 {
-	return float32(config.GetFloat64(key))
+func (config *Config) GetFloat32(key string, def float32) float32 {
+	return cast.ToFloat32(config.Get(key, def))
 }
 
 //GetFloat64 gets a value as float64 with key
-func (config *Config) GetFloat64(key string) float64 {
-	return config.Content.GetFloat64(key)
+func (config *Config) GetFloat64(key string, def float64) float64 {
+	return cast.ToFloat64(config.Get(key, def))
 }
 
 //GetStringSlice gets a value as []string with key
-func (config *Config) GetStringSlice(key string) []string {
-	return config.Content.GetStringSlice(key)
+func (config *Config) GetStringSlice(key string, def []string) []string {
+	return cast.ToStringSlice(config.Get(key, def))
 }
 
 //GetStringMap gets a value as map[string]interface{} with key
-func (config *Config) GetStringMap(key string) map[string]interface{} {
-	return config.Content.GetStringMap(key)
+func (config *Config) GetStringMap(key string, def map[string]interface{}) map[string]interface{} {
+	return cast.ToStringMap(config.Get(key, def))
 }
 
 //GetStringMapString gets a value as map[string]string with key
-func (config *Config) GetStringMapString(key string) map[string]string {
-	return config.Content.GetStringMapString(key)
+func (config *Config) GetStringMapString(key string, def map[string]string) map[string]string {
+	return cast.ToStringMapString(config.Get(key, def))
 }
 
 //GetStringMapStringSlice gets a value as map[string][]string with key
-func (config *Config) GetStringMapStringSlice(key string) map[string][]string {
-	return config.Content.GetStringMapStringSlice(key)
+func (config *Config) GetStringMapStringSlice(key string, def map[string][]string) map[string][]string {
+	return cast.ToStringMapStringSlice(config.Get(key, def))
 }
 
 //SetString sets a value as string with key

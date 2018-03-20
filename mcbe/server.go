@@ -88,7 +88,7 @@ func (ser *Server) Start() {
 	ser.settings.Load(ser.Path+"/medaka.yml", util.YAML, nil)
 
 	//set log debug for logger from medaka.yml
-	ser.Logger.SetLogDebug(ser.SettingBool("settings.debug"))
+	ser.Logger.SetLogDebug(ser.SettingBool("settings.debug", false))
 
 	ser.Logger.Info("Loading server properties...")
 
@@ -133,7 +133,7 @@ func (ser *Server) Start() {
 		"jpn",
 	}
 
-	language := ser.SettingString("settings.language")
+	language := ser.SettingString("settings.language", "eng")
 	supported := false
 	for i := range supportedLang {
 		if supportedLang[i] == language {
@@ -329,16 +329,16 @@ func (ser *Server) Settings() *util.Config {
 	return ser.settings
 }
 
-func (ser *Server) SettingBool(key string) bool {
-	return ser.settings.GetBool(key)
+func (ser *Server) SettingBool(key string, def bool) bool {
+	return ser.settings.GetBool(key, def)
 }
 
-func (ser *Server) SettingString(key string) string {
-	return ser.settings.GetString(key)
+func (ser *Server) SettingString(key string, def string) string {
+	return ser.settings.GetString(key, def)
 }
 
-func (ser *Server) SettingInt(key string) int {
-	return ser.settings.GetInt(key)
+func (ser *Server) SettingInt(key string, def int) int {
+	return ser.settings.GetInt(key, def)
 }
 
 func (ser *Server) Translate(text *lang.Text) string {

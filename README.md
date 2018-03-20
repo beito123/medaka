@@ -66,6 +66,7 @@ This project is based on PocketMine-MP!
 - Logger : [Logrus](https://github.com/Sirupsen/logrus)
 - Color Console for Windows : [go-colorable](https://github.com/mattn/go-colorable)
 - Load and Save configs : [Viper](https://github.com/spf13/viper)
+- Safe cast for Config : [cast](https://github.com/spf13/cast)
 - Embed assets : [go-assets](https://github.com/jessevdk/go-assets)
 
 ### Design reference
@@ -149,6 +150,7 @@ Thank you so much!
 - コンソールへのログの管理 : [Logrus](https://github.com/Sirupsen/logrus)
 - Windowsでのコンソールの色付け : [go-colorable](https://github.com/mattn/go-colorable)
 - Configの読み書き : [Viper](https://github.com/spf13/viper)
+- Configの安全なキャスト : [cast](https://github.com/spf13/cast)
 - リソースの埋込み : [go-assets](https://github.com/jessevdk/go-assets)
 
 ### 設計の参考
