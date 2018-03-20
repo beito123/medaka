@@ -48,6 +48,11 @@ func IsPermissionError(err error) bool {
 	return ok && e.Type() == ErrorPermission
 }
 
+func IsCommandError(err error) bool {
+	e, ok := err.(Error)
+	return ok && e.Type() == ErrorCommand
+}
+
 func IsPluginError(err error) bool {
 	e, ok := err.(Error)
 	return ok && e.Type() == ErrorPlugin
