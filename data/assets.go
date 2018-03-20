@@ -11,18 +11,8 @@ var _Assets01626ec553c190a58d74919f914b2131f2025f75 = "# Lang file in Japanese\r
 var _Assets25a0b1481b5ef1da0a69fc5fc4cc4aa70e567123 = "#Advanced config file for Medaka\r\n\r\nsettings:\r\n  language: \"eng\"\r\n  force-language: false\r\n  shutdown-message: \"Server closed\"\r\n  query-plugins: true\r\n  async-workers: auto\r\n  debug: true"
 
 // Assets returns go-assets FileSystem
-var Assets = assets.NewFileSystem(map[string][]string{"/static/lang": []string{"eng.ini", "jpn.ini"}, "/": []string{"static"}, "/static": []string{"medaka.yml"}}, map[string]*assets.File{
-	"/static/lang": &assets.File{
-		Path:     "/static/lang",
-		FileMode: 0x800001ff,
-		Mtime:    time.Unix(1521277615, 1521277615720293400),
-		Data:     nil,
-	}, "/static/lang/eng.ini": &assets.File{
-		Path:     "/static/lang/eng.ini",
-		FileMode: 0x1b6,
-		Mtime:    time.Unix(1521447387, 1521447387535427200),
-		Data:     []byte(_Assetsd9dd3b7e23cf21210562389f49941f358763f9b1),
-	}, "/static/lang/jpn.ini": &assets.File{
+var Assets = assets.NewFileSystem(map[string][]string{"/": []string{"static"}, "/static": []string{"medaka.yml"}, "/static/lang": []string{"eng.ini", "jpn.ini"}}, map[string]*assets.File{
+	"/static/lang/jpn.ini": &assets.File{
 		Path:     "/static/lang/jpn.ini",
 		FileMode: 0x1b6,
 		Mtime:    time.Unix(1521447455, 1521447455508631500),
@@ -42,4 +32,14 @@ var Assets = assets.NewFileSystem(map[string][]string{"/static/lang": []string{"
 		FileMode: 0x800001ff,
 		Mtime:    time.Unix(1521268425, 1521268425775515000),
 		Data:     nil,
+	}, "/static/lang": &assets.File{
+		Path:     "/static/lang",
+		FileMode: 0x800001ff,
+		Mtime:    time.Unix(1521277615, 1521277615720293400),
+		Data:     nil,
+	}, "/static/lang/eng.ini": &assets.File{
+		Path:     "/static/lang/eng.ini",
+		FileMode: 0x1b6,
+		Mtime:    time.Unix(1521447387, 1521447387535427200),
+		Data:     []byte(_Assetsd9dd3b7e23cf21210562389f49941f358763f9b1),
 	}}, "")

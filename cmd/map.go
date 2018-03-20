@@ -13,16 +13,14 @@ package cmd
 
 import (
 	"strings"
-
-	"github.com/beito123/medaka"
 )
 
 type SimpleMap struct {
-	CommandMap map[string]medaka.Command
-	AliasMap   map[string]medaka.Command
+	CommandMap map[string]Command
+	AliasMap   map[string]Command
 }
 
-func (m *SimpleMap) Add(cmd medaka.Command) error {
+func (m *SimpleMap) Add(cmd Command) error {
 	if m.Exist(cmd.Name()) {
 		return AlreadyRegisteredError{}
 	}
@@ -66,7 +64,7 @@ func (m *SimpleMap) existAlias(name string) bool {
 	return ok
 }
 
-func (m *SimpleMap) Command(name string) medaka.Command {
+func (m *SimpleMap) Command(name string) Command {
 	name = strings.ToLower(name)
 
 	if m.existAlias(name) {
@@ -80,12 +78,12 @@ func (m *SimpleMap) Command(name string) medaka.Command {
 	return nil
 }
 
-func (m *SimpleMap) Aliases() map[string]medaka.Command {
+func (m *SimpleMap) Aliases() map[string]Command {
 	return m.AliasMap
 }
 
-func (m *SimpleMap) List() []medaka.Command {
-	list := make([]medaka.Command, 0, len(m.CommandMap))
+func (m *SimpleMap) List() []Command {
+	list := make([]Command, 0, len(m.CommandMap))
 	for _, value := range m.CommandMap {
 		list = append(list, value)
 	}
@@ -93,6 +91,6 @@ func (m *SimpleMap) List() []medaka.Command {
 	return list
 }
 
-func (m *SimpleMap) Map() map[string]medaka.Command {
+func (m *SimpleMap) Map() map[string]Command {
 	return m.CommandMap
 }

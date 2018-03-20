@@ -34,12 +34,12 @@ type Server struct {
 	Path string
 
 	Logger        medaka.Logger
-	CommandReader medaka.CommandReader
-	CommandSender medaka.CommandSender
+	CommandReader cmd.Reader
+	CommandSender cmd.Sender
 	Lang          *lang.Lang
 
 	settings   *util.Config
-	commandMap medaka.CommandMap
+	commandMap cmd.Map
 
 	running bool
 	stopped bool
@@ -282,7 +282,7 @@ func (ser *Server) checkConsole() {
 	ser.SendCommand(ser.CommandSender, cmd, args)
 }
 
-func (ser *Server) SendCommand(sender medaka.CommandSender, command medaka.Command, args []string) {
+func (ser *Server) SendCommand(sender cmd.Sender, command cmd.Command, args []string) {
 	//event
 
 	err := command.Execute(sender, args)
@@ -354,8 +354,8 @@ func (ser *Server) TranslateWithString(key string, args ...string) string {
 
 func (ser *Server) initCommands() {
 	ser.commandMap = &cmd.SimpleMap{
-		CommandMap: make(map[string]medaka.Command),
-		AliasMap:   make(map[string]medaka.Command),
+		CommandMap: make(map[string]cmd.Command),
+		AliasMap:   make(map[string]cmd.Command),
 	}
 
 	ser.commandMap.Add(&VersionCommand{})

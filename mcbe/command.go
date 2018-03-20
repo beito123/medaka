@@ -1,11 +1,5 @@
 package mcbe
 
-import (
-	"github.com/beito123/medaka"
-	"github.com/beito123/medaka/lang"
-	"github.com/beito123/medaka/log"
-)
-
 /*
 	Medaka
 
@@ -17,21 +11,28 @@ import (
 	(at your option) any later version.
 */
 
+import (
+	"github.com/beito123/medaka"
+	"github.com/beito123/medaka/cmd"
+	"github.com/beito123/medaka/lang"
+	"github.com/beito123/medaka/log"
+)
+
 type VanillaCommand interface {
-	medaka.Command
-	Run(sender medaka.CommandSender, args []string) bool
+	cmd.Command
+	Run(sender cmd.Sender, args []string) bool
 }
 
 //DefaultCommand is basic command for vanilla commands
 type DefaultCommand struct {
-	medaka.Command
+	cmd.Command
 }
 
 func (cmd *DefaultCommand) Aliases() []string {
 	return []string{}
 }
 
-func (base *DefaultCommand) Execute(cmd VanillaCommand, sender medaka.CommandSender, args []string) error {
+func (base *DefaultCommand) Execute(cmd VanillaCommand, sender cmd.Sender, args []string) error {
 	if !sender.HasPermission(cmd.Permission()) {
 		sender.SendMessageWithText(lang.NewTextWithPrefix("command.noPermission", log.Red))
 		return nil
@@ -67,11 +68,11 @@ func (cmd *VersionCommand) Permission() string {
 	return "minecraft.command.version"
 }
 
-func (cmd *VersionCommand) Execute(sender medaka.CommandSender, args []string) error {
+func (cmd *VersionCommand) Execute(sender cmd.Sender, args []string) error {
 	return cmd.DefaultCommand.Execute(cmd, sender, args)
 }
 
-func (cmd *VersionCommand) Run(sender medaka.CommandSender, args []string) bool {
+func (cmd *VersionCommand) Run(sender cmd.Sender, args []string) bool {
 	sender.SendMessageWithText(lang.NewText("command.version.execute", medaka.Version, medaka.Revision, medaka.SupportMCBEVersion))
 
 	return true
@@ -98,11 +99,11 @@ func (cmd *StopCommand) Permission() string {
 	return "minecraft.command.stop"
 }
 
-func (cmd *StopCommand) Execute(sender medaka.CommandSender, args []string) error {
+func (cmd *StopCommand) Execute(sender cmd.Sender, args []string) error {
 	return cmd.DefaultCommand.Execute(cmd, sender, args)
 }
 
-func (cmd *StopCommand) Run(sender medaka.CommandSender, args []string) bool {
+func (cmd *StopCommand) Run(sender cmd.Sender, args []string) bool {
 	sender.SendMessageWithText(lang.NewText("command.stop.execute"))
 
 	ser := Instance()
