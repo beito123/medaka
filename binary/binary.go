@@ -7,14 +7,14 @@ import (
 )
 
 const (
-	ByteSize  int = 1
-	ShortSize     = 2
-	TriadSize     = 3
-	IntSize       = 4
-	LongSize      = 8
+	ByteSize  = 1
+	ShortSize = 2
+	TriadSize = 3
+	IntSize   = 4
+	LongSize  = 8
 
-	FloatSize  int = 4
-	DoubleSize     = 8
+	FloatSize  = 4
+	DoubleSize = 8
 )
 
 type Triad uint32
@@ -365,11 +365,8 @@ func Write(writer io.Writer, order Order, data interface{}) error {
 	}
 
 	_, err := writer.Write(value)
-	if err != nil {
-		return err
-	}
 
-	return nil
+	return err
 }
 
 //dataSize returns byte size of type
