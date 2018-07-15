@@ -2,6 +2,7 @@
 *.exe
 
 #Ignore dirs
-dist/
-test/
-.vscode/
+/dist/
+/test/
+/.vscode/
+/.idea/
