@@ -57,6 +57,7 @@ type Logger interface {
 
 type StdLogger interface {
 	Print(...interface{})
+	Printf(format string, args ...interface{})
 }
 
 //Thanks: http://sgykfjsm.github.io/blog/2016/01/20/golang-function-tracing/
