@@ -33,10 +33,10 @@ const (
 	APIVersion = "1.0"
 
 	//CodeName is the project's codename.
-	CodeName = "The egg"
+	CodeName = "Natsu (Summer)"
 
 	//SupportMCBEVersion is supported version in the project
-	SupportMCBEVersion = "1.2.0"
+	SupportMCBEVersion = "1.2.x"
 )
 
 const (
