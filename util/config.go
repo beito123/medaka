@@ -198,7 +198,7 @@ func (config *Config) SetDefaults(def map[string]interface{}) {
 	}
 }
 
-//Get gets a value with key
+//Get gets a value by key
 func (config *Config) Get(key string, def interface{}) interface{} {
 	val := config.Content.Get(key)
 	if val == nil {
@@ -208,7 +208,7 @@ func (config *Config) Get(key string, def interface{}) interface{} {
 	return val
 }
 
-//Set sets a value with key
+//Set sets a value by key
 func (config *Config) Set(key string, value interface{}) {
 	if config.readOnly {
 		return
@@ -219,127 +219,127 @@ func (config *Config) Set(key string, value interface{}) {
 	config.Content.Set(key, value)
 }
 
-//Exist returns existing data with key
+//Exist returns existing data by key
 func (config *Config) Exist(key string) bool {
 	return config.Content.IsSet(key)
 }
 
-//GetString gets a value as string with key
+//GetString gets a value as string by key
 func (config *Config) GetString(key string, def string) string {
 	return cast.ToString(config.Get(key, def))
 }
 
-//GetBool gets a value as boolean with key
+//GetBool gets a value as boolean by key
 func (config *Config) GetBool(key string, def bool) bool {
 	return cast.ToBool(config.Get(key, def))
 }
 
-//GetInt gets a value as int with key
+//GetInt gets a value as int by key
 func (config *Config) GetInt(key string, def int) int {
 	return cast.ToInt(config.Get(key, def))
 }
 
-//GetUInt gets a value as uint with key
+//GetUInt gets a value as uint by key
 func (config *Config) GetUInt(key string, def uint) uint {
 	return cast.ToUint(config.Get(key, def))
 }
 
-//GetInt64 gets a value as int64 with key
+//GetInt64 gets a value as int64 by key
 func (config *Config) GetInt64(key string, def int64) int64 {
 	return cast.ToInt64(config.Get(key, def))
 }
 
-//GetUInt64 gets a value as uint64 with key
+//GetUInt64 gets a value as uint64 by key
 func (config *Config) GetUInt64(key string, def uint64) uint64 {
 	return cast.ToUint64(config.Get(key, def))
 }
 
-//GetFloat32 gets a value as float32 with key
+//GetFloat32 gets a value as float32 by key
 func (config *Config) GetFloat32(key string, def float32) float32 {
 	return cast.ToFloat32(config.Get(key, def))
 }
 
-//GetFloat64 gets a value as float64 with key
+//GetFloat64 gets a value as float64 by key
 func (config *Config) GetFloat64(key string, def float64) float64 {
 	return cast.ToFloat64(config.Get(key, def))
 }
 
-//GetStringSlice gets a value as []string with key
+//GetStringSlice gets a value as []string by key
 func (config *Config) GetStringSlice(key string, def []string) []string {
 	return cast.ToStringSlice(config.Get(key, def))
 }
 
-//GetStringMap gets a value as map[string]interface{} with key
+//GetStringMap gets a value as map[string]interface{} by key
 func (config *Config) GetStringMap(key string, def map[string]interface{}) map[string]interface{} {
 	return cast.ToStringMap(config.Get(key, def))
 }
 
-//GetStringMapString gets a value as map[string]string with key
+//GetStringMapString gets a value as map[string]string by key
 func (config *Config) GetStringMapString(key string, def map[string]string) map[string]string {
 	return cast.ToStringMapString(config.Get(key, def))
 }
 
-//GetStringMapStringSlice gets a value as map[string][]string with key
+//GetStringMapStringSlice gets a value as map[string][]string by key
 func (config *Config) GetStringMapStringSlice(key string, def map[string][]string) map[string][]string {
 	return cast.ToStringMapStringSlice(config.Get(key, def))
 }
 
-//SetString sets a value as string with key
+//SetString sets a value as string by key
 func (config *Config) SetString(key string, val string) {
 	config.Set(key, val)
 }
 
-//SetBool sets a value as boolean with key
+//SetBool sets a value as boolean by key
 func (config *Config) SetBool(key string, val bool) {
 	config.Set(key, val)
 }
 
-//SetInt sets a value as int with key
+//SetInt sets a value as int by key
 func (config *Config) SetInt(key string, val int) {
 	config.Set(key, val)
 }
 
-//SetUInt sets a value as uint with key
+//SetUInt sets a value as uint by key
 func (config *Config) SetUInt(key string, val uint) {
 	config.Set(key, val)
 }
 
-//SetInt64 sets a value as int64 with key
+//SetInt64 sets a value as int64 by key
 func (config *Config) SetInt64(key string, val int64) {
 	config.Set(key, val)
 }
 
-//SetUInt64 sets a value as uint64 with key
+//SetUInt64 sets a value as uint64 by key
 func (config *Config) SetUInt64(key string, val uint64) {
 	config.Set(key, val)
 }
 
-//SetFloat32 sets a value as float32 with key
+//SetFloat32 sets a value as float32 by key
 func (config *Config) SetFloat32(key string, val float32) {
 	config.Set(key, val)
 }
 
-//SetFloat64 sets a value as float64 with key
+//SetFloat64 sets a value as float64 by key
 func (config *Config) SetFloat64(key string, val float64) {
 	config.Set(key, val)
 }
 
-//SetStringSlice sets a value as []string with key
+//SetStringSlice sets a value as []string by key
 func (config *Config) SetStringSlice(key string, val []string) {
 	config.Set(key, val)
 }
 
-//SetStringMap sets a value as map[string]interface{} with key
+//SetStringMap sets a value as map[string]interface{} by key
 func (config *Config) SetStringMap(key string, val map[string]interface{}) {
 	config.Set(key, val)
 }
 
-//SetStringMapString sets a value as map[string]string with key
+//SetStringMapString sets a value as map[string]string by key
 func (config *Config) SetStringMapString(key string, val map[string]string) {
 	config.Set(key, val)
 }
 
-//SetStringMapStringSlice sets a value as map[string][]string with key
+//SetStringMapStringSlice sets a value as map[string][]string by key
 func (config *Config) SetStringMapStringSlice(key string, val map[string][]string) {
 	config.Set(key, val)
 }
