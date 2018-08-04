@@ -14,8 +14,12 @@ package mcbe
 import (
 	"fmt"
 	"os"
+	"runtime"
 	"strings"
 	"time"
+
+	"github.com/beito123/medaka/scheduler"
+	"github.com/beito123/medaka/scheduler/async"
 
 	"github.com/beito123/medaka"
 	"github.com/beito123/medaka/cmd"
@@ -40,6 +44,9 @@ type Server struct {
 
 	settings   *util.Config
 	commandMap cmd.Map
+
+	scheduler *scheduler.Scheduler
+	asyncPool *async.Pool
 
 	running bool
 	stopped bool
@@ -149,16 +156,26 @@ func (ser *Server) Start() {
 	ser.Logger.Info(ser.TranslateWithString("medaka.lang.loaded"))
 
 	//start message
-	ser.Logger.Info(ser.TranslateWithString("medaka.server.start", medaka.SupportMCBEVersion))
+	ser.Logger.Info(ser.TranslateWithString("medaka.server.start", medaka.SupportMCBEVersion, medaka.CodeName))
 
 	//ready async task//decide pool size//workers
+	var poolSize int
+
+	poolSizeString := ser.SettingString("settings.async-workers", "auto")
+	if strings.ToLower(poolSizeString) != "auto" {
+		poolSize = ser.SettingInt("settings.async-workers", 1)
+	} else { //auto
+		poolSize = runtime.NumCPU()
+	}
+
+	ser.asyncPool = async.NewPool(poolSize)
+
+	ser.scheduler = scheduler.NewScheduler(ser.Logger)
 
 	//Ready Network
 	//Set Threshold for batching packets
 	//Set CompressionLevel
 	//Set CompressionAsync
-
-	//Ready Server scheduler
 
 	//ops
 	//whitelist
