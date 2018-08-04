@@ -45,11 +45,16 @@ const (
 
 //Logger is basic logger interface
 type Logger interface {
-	Info(msg string)
-	Notice(msg string)
-	Warn(msg string)
-	Fatal(msg string)
-	Debug(msg string)
+	Info(msg ...interface{})
+	Notice(msg ...interface{})
+	Warn(msg ...interface{})
+	Fatal(msg ...interface{})
+	Debug(msg ...interface{})
+	Infof(format string, args ...interface{})
+	Noticef(format string, args ...interface{})
+	Warnf(format string, args ...interface{})
+	Fatalf(format string, args ...interface{})
+	Debugf(format string, args ...interface{})
 	Err(err error, trace []*CallerInfo)
 	Trace(trace []*CallerInfo)
 	SetLogDebug(bool)

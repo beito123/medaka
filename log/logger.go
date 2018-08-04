@@ -12,6 +12,7 @@ package log
 */
 
 import (
+	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -71,48 +72,90 @@ func (lvl Level) String() string {
 	return "unknown"
 }
 
-func NewLogger(out medaka.StdLogger) *consoleLogger {
-	return &consoleLogger{
+func NewLogger(out medaka.StdLogger) *Logger {
+	return &Logger{
 		Out:             out,
 		OutLevel:        LevelDebug,
 		TimestampFormat: DefaultTimestampFormat,
 	}
 }
 
-//consoleLogger is ...
-type consoleLogger struct {
+func NewStdLogger() *log.Logger {
+	return log.New(&LoggerWriter{
+		Level: LevelInfo,
+	}, "", 0)
+}
+
+// Logger is basic console logger
+type Logger struct {
 	Out             medaka.StdLogger
 	OutLevel        Level
 	TimestampFormat string
+	Prefix          string
 }
 
-//Info logs the message with info level
-func (log *consoleLogger) Info(msg string) {
-	log.Log(LevelInfo, msg)
+// Print logs the message
+func (log *Logger) Print(msg ...interface{}) {
+	log.Log(LevelInfo, msg...)
 }
 
-//Notice logs the message with notice level
-func (log *consoleLogger) Notice(msg string) {
-	log.Log(LevelNotice, msg)
+// Printf logs the message with format
+func (log *Logger) Printf(format string, args ...interface{}) {
+	log.Logf(LevelInfo, format, args...)
 }
 
-//Warn logs the message with warn level
-func (log *consoleLogger) Warn(msg string) {
-	log.Log(LevelWarn, msg)
+// Info logs the message as info level
+func (log *Logger) Info(msg ...interface{}) {
+	log.Log(LevelInfo, msg...)
 }
 
-//Fatal logs the message with fatal level
-func (log *consoleLogger) Fatal(msg string) {
-	log.Log(LevelFatal, msg)
+// Infof logs the message as info level with format
+func (log *Logger) Infof(format string, args ...interface{}) {
+	log.Logf(LevelInfo, format, args...)
 }
 
-//Debug logs the message with debug level
-func (log *consoleLogger) Debug(msg string) {
-	log.Log(LevelDebug, msg)
+// Notice logs the message as notice level
+func (log *Logger) Notice(msg ...interface{}) {
+	log.Log(LevelNotice, msg...)
 }
 
-//Err logs the error
-func (log *consoleLogger) Err(err error, trace []*medaka.CallerInfo) {
+// Noticef logs the message as notice level with format
+func (log *Logger) Noticef(format string, args ...interface{}) {
+	log.Logf(LevelNotice, format, args...)
+}
+
+// Warn logs the message as warn level
+func (log *Logger) Warn(msg ...interface{}) {
+	log.Log(LevelWarn, msg...)
+}
+
+// Warnf logs the message as warn level with format
+func (log *Logger) Warnf(format string, args ...interface{}) {
+	log.Logf(LevelWarn, format, args...)
+}
+
+// Fatal logs the message as fatal level
+func (log *Logger) Fatal(msg ...interface{}) {
+	log.Log(LevelFatal, msg...)
+}
+
+// Fatalf logs the message as fatal level with format
+func (log *Logger) Fatalf(format string, args ...interface{}) {
+	log.Logf(LevelFatal, format, args...)
+}
+
+// Debug logs the message as debug level
+func (log *Logger) Debug(msg ...interface{}) {
+	log.Log(LevelDebug, msg...)
+}
+
+// Debugf logs the message as debug level with format
+func (log *Logger) Debugf(format string, args ...interface{}) {
+	log.Logf(LevelDebug, format, args...)
+}
+
+// Err logs the error
+func (log *Logger) Err(err error, trace []*medaka.CallerInfo) {
 	if trace == nil {
 		trace = medaka.Dump(1, medaka.TraceLimit)
 	}
@@ -124,7 +167,8 @@ func (log *consoleLogger) Err(err error, trace []*medaka.CallerInfo) {
 	log.Trace(trace)
 }
 
-func (log *consoleLogger) Trace(trace []*medaka.CallerInfo) {
+// Trace logs traces
+func (log *Logger) Trace(trace []*medaka.CallerInfo) {
 	if trace == nil {
 		trace = medaka.Dump(1, medaka.TraceLimit)
 	}
@@ -141,7 +185,8 @@ func (log *consoleLogger) Trace(trace []*medaka.CallerInfo) {
 	log.Debug(stack)
 }
 
-func (log *consoleLogger) SetLogDebug(b bool) {
+// SetLogDebug set log level to debug mode
+func (log *Logger) SetLogDebug(b bool) {
 	if b {
 		log.OutLevel = LevelDebug
 	} else {
@@ -149,8 +194,13 @@ func (log *consoleLogger) SetLogDebug(b bool) {
 	}
 }
 
-//Log logs the message with the level
-func (log *consoleLogger) Log(level Level, msg string) {
+// Log logs the message with the level
+func (log *Logger) Log(level Level, msg ...interface{}) {
+	log.Logf(level, strings.Repeat("%s", len(msg)), msg...)
+}
+
+// Logf logs the message with the level
+func (log *Logger) Logf(level Level, format string, args ...interface{}) {
 	if level > log.OutLevel {
 		return
 	}
@@ -165,7 +215,36 @@ func (log *consoleLogger) Log(level Level, msg string) {
 	time := time.Now().Format(timeFormat)
 	lvl := strings.ToUpper(level.String())
 
-	text := color + "[" + time + "] [" + lvl + "] " + msg + Reset
+	prefix := color + "[" + time + "] [" + lvl + "] "
 
-	log.Out.Print(text)
+	if len(log.Prefix) > 0 {
+		prefix += log.Prefix + " "
+	}
+
+	log.Out.Printf(prefix+format+Reset, args)
+}
+
+func (log *Logger) New() *Logger {
+	return log.NewWithPrefix(log.Prefix)
+}
+
+func (log *Logger) NewWithPrefix(prefix string) *Logger {
+	return &Logger{
+		Out:             log.Out,
+		OutLevel:        log.OutLevel,
+		TimestampFormat: log.TimestampFormat,
+		Prefix:          prefix,
+	}
+}
+
+// LoggerWriter implements io.Writer maybe...
+type LoggerWriter struct {
+	Logger
+	Level Level
+}
+
+// Write writes the logger p
+func (log *LoggerWriter) Write(p []byte) (n int, err error) {
+	log.Log(log.Level, string(p))
+	return len(p), nil
 }
