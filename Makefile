@@ -64,8 +64,7 @@ test:
 deps:
 	dep ensure
 	@echo "Installing go-assets-builder..."
-	@cd ./vendor/github.com/jessevdk/go-assets-builder
-	@$(GOINSTALL) .
+	@cd ./vendor/github.com/jessevdk/go-assets-builder && $(GOINSTALL) .
 
 cross-build: src
 	@echo "Ready..."
