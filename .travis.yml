@@ -15,7 +15,6 @@ before_install:
 
 install:
   - cd $PROJECT_ROOT
-  - make deps-on-ci
   - make deps
 
 before_script:

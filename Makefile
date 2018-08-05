@@ -18,7 +18,7 @@ GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
 
-GOASSETBUILDER=go-assets-builder
+GOASSETBUILDER=$(GOPATH)/go-assets-builder
 
 # For compatibility
 ifeq ($(OS),Windows_NT)
@@ -66,12 +66,6 @@ deps:
 	@echo "Installing go-assets-builder..."
 	@cd ./vendor/github.com/jessevdk/go-assets-builder
 	@$(GOINSTALL) .
-
-deps-on-ci:
-	curl -sL https://github.com/golang/dep/releases/download/v5.0.0/dep-linux-amd64 > $(GOPATH)/bin/dep
-	chmod +x $(GOPATH)/bin/dep
-	ls $(GOPATH)/bin/dep
-	ls $(GOPATH)
 
 cross-build: src
 	@echo "Ready..."
