@@ -78,6 +78,8 @@ This project is based on PocketMine-MP!
 
 - Embed assets : [go-assets](https://github.com/jessevdk/go-assets)
 
+- Ordered Map : [orderedmap](https://github.com/secnot/orderedmap)
+
 ### Design reference
 
 - [Go app of Kayac](https://github.com/kayac?language=go)
@@ -171,6 +173,8 @@ Thank you so much!
 - Configの安全なキャスト : [cast](https://github.com/spf13/cast)
 
 - リソースの埋込み : [go-assets](https://github.com/jessevdk/go-assets)
+
+- 順序付きMap : [orderedmap](https://github.com/secnot/orderedmap)
 
 ### 設計の参考
 
