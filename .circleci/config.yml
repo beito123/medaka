@@ -5,8 +5,8 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.10.3
-
-      working_directory: /go/src/github.com/beito123/medaka
+    
+    working_directory: /go/src/github.com/beito123/medaka
 
     #Build
     steps:
