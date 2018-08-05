@@ -63,7 +63,7 @@ test:
 
 deps:
 	dep ensure
-	@echo "Building go-assets-builder..."
+	@echo "Installing go-assets-builder..."
 	@cd ./vendor/github.com/jessevdk/go-assets-builder
 	@$(GOINSTALL) .
 

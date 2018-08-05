@@ -5,6 +5,7 @@ go:
 
 install:
   - go get -t ./...
+  - make deps
 
 before_script:
   - go get -u golang.org/x/tools/cmd/goimports
@@ -12,7 +13,6 @@ before_script:
 #  - go get -u github.com/golang/lint/golint
 
 script:
-  - make deps
   - go vet ./...
   - make
 
