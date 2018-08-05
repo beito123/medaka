@@ -31,6 +31,24 @@
   revision = "23c074d0eceb2b8a5bfdbb271ab780cde70f05a8"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/jessevdk/go-assets"
+  packages = ["."]
+  revision = "4f4301a06e153ff90e17793577ab6bf79f8dc5c5"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/jessevdk/go-assets-builder"
+  packages = ["."]
+  revision = "b8483521738fd2198ecfc378067a4e8a6079f8e5"
+
+[[projects]]
+  name = "github.com/jessevdk/go-flags"
+  packages = ["."]
+  revision = "c6ca198ec95c841fdb89fc0de7496fed11ab854e"
+  version = "v1.4.0"
+
+[[projects]]
   name = "github.com/magiconair/properties"
   packages = ["."]
   revision = "c3beff4c2358b44d0493c7dda585e7db7ff28ae6"
@@ -59,6 +77,12 @@
   packages = ["."]
   revision = "acdc4509485b587f5e675510c4f2c63e90ff68a8"
   version = "v1.1.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/secnot/orderedmap"
+  packages = ["."]
+  revision = "a05363cca499d93a5de6081a1dfc1b35d1c9c9ee"
 
 [[projects]]
   name = "github.com/spf13/afero"
@@ -130,6 +154,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "743edb8ce76078d99c4ebe765d873f8534d64c2968feb05d06d6bab900ac90a1"
+  inputs-digest = "c21a81dc1a32bf607332b874b4565a73a007f3bc2a12cd849fb72ea4e438b637"
   solver-name = "gps-cdcl"
   solver-version = 1
