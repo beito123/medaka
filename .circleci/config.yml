@@ -43,7 +43,7 @@ jobs:
           command: go vet ./...
       - run:
           name: build
-          command: make
+          command: make cross-build
       - store_artifacts:
           path: ./dist/
           destination: dist/

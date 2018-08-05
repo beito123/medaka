@@ -41,9 +41,6 @@ all: medaka
 medaka: app/medaka
 
 app/medaka: $(SRCS) assets
-	@echo "Ready assets..."
-	@cd $(ASSETPATH); \
-		$(GOASSETBUILDER) --package=data ./static/ > assets.go
 	@echo "Building..."
 	@$(GOBUILD) -a -tags netgo -installsuffix netgo $(LDFLAGS) -o $(BINARYNAME) $(BUILDPATH)
 
