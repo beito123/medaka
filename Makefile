@@ -67,6 +67,10 @@ deps:
 	@cd ./vendor/github.com/jessevdk/go-assets-builder
 	@$(GOINSTALL) .
 
+deps-on-ci:
+	curl -sL https://github.com/golang/dep/releases/download/v5.0.0/dep-linux-amd64 > ${GOPATH}/bin/dep
+	chmod +x ${GOPATH}/bin/dep
+
 cross-build: src
 	@echo "Ready..."
 	@$(GOGET) github.com/mitchellh/gox
