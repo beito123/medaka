@@ -68,10 +68,10 @@ deps:
 	@$(GOINSTALL) .
 
 deps-on-ci:
-	curl -sL https://github.com/golang/dep/releases/download/v5.0.0/dep-linux-amd64 > ${GOPATH}/bin/dep
-	chmod +x ${GOPATH}/bin/dep
-	ls ${GOPATH}/bin/dep
-	ls ${GOPATH}
+	curl -sL https://github.com/golang/dep/releases/download/v5.0.0/dep-linux-amd64 > $(GOPATH)/bin/dep
+	chmod +x $(GOPATH)/bin/dep
+	ls $(GOPATH)/bin/dep
+	ls $(GOPATH)
 
 cross-build: src
 	@echo "Ready..."
