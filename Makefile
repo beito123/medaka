@@ -25,7 +25,7 @@ ifeq ($(OS),Windows_NT)
 	BINARYNAME = $(NAME).exe
 	RM = cmd.exe /C del /Q
 	RMDIR = $(RM)
-	SRCS := $(shell cmd /c "dir /A-D /B /S | findstr ".*\.go[^\\]*$$"")
+	SRCS = $(subst $(CURDIR)/,,$(subst \,/,$(shell cmd.exe /C "dir *.go /b /a-d /s")))
 else
 	BINARYNAME = $(NAME)
 	RM = rm -f
@@ -34,13 +34,15 @@ else
 endif
 
 # Commands
+.PHONY: all medaka
+
 all: medaka
 
 medaka: app/medaka
 
 app/medaka: $(SRCS)
 	@echo "Ready assets..."
-	@cd $(ASSETPATH);\
+	@cd $(ASSETPATH); \
 		$(GOASSETBUILDER) --package=data ./static/ > assets.go
 	@echo "Building..."
 	@$(GOBUILD) -a -tags netgo -installsuffix netgo $(LDFLAGS) -o $(BINARYNAME) $(BUILDPATH)
@@ -75,4 +77,3 @@ cross-build: src
 		-arch="386 amd64" \
 		-output "dist/{{.OS}}_{{.Arch}}/{{.Dir}}" \
 		$(BUILDPATH)
-#
