@@ -16,8 +16,8 @@ jobs:
             - vendor-{{ checksum "Gopkg.lock" }}
             - deps
       - run:
-        name: Resolve dependencies
-        command: |
+          name: Resolve dependencies
+          command: |
             if [ ! -d vendor ]; then
               if ! type dep >/dev/null 2>&1; then
                 go get github.com/golang/dep/cmd/dep
