@@ -44,6 +44,9 @@ jobs:
       - run:
           name: build
           command: make
+      - store_artifacts:
+          path: ./dist/
+          destination: dist/
       - save_cache:
           key: build-cache-{{ .Branch }}--{{ .Revision }}
           paths:

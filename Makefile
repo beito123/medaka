@@ -34,18 +34,23 @@ else
 endif
 
 # Commands
-.PHONY: all medaka
+.PHONY: all medaka assets
 
 all: medaka
 
 medaka: app/medaka
 
-app/medaka: $(SRCS)
+app/medaka: $(SRCS) assets
 	@echo "Ready assets..."
 	@cd $(ASSETPATH); \
 		$(GOASSETBUILDER) --package=data ./static/ > assets.go
 	@echo "Building..."
 	@$(GOBUILD) -a -tags netgo -installsuffix netgo $(LDFLAGS) -o $(BINARYNAME) $(BUILDPATH)
+
+assets:
+	@echo "Ready assets..."
+	@cd $(ASSETPATH); \
+		$(GOASSETBUILDER) --package=data ./static/ > assets.go
 
 .PHONY: install clean test deps cross-build
 
@@ -66,7 +71,7 @@ deps:
 	@echo "Installing go-assets-builder..."
 	@cd ./vendor/github.com/jessevdk/go-assets-builder && $(GOINSTALL) .
 
-cross-build: src
+cross-build: assets
 	@echo "Ready..."
 	@$(GOGET) github.com/mitchellh/gox
 
