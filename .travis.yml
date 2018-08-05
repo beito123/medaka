@@ -3,7 +3,8 @@ language: go
 go:
   - "1.10.x"
 
-install: true
+install:
+  - go get -t ./...
 
 before_script:
   - go get -u golang.org/x/tools/cmd/goimports
