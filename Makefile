@@ -18,7 +18,7 @@ GOCLEAN=$(GOCMD) clean
 GOTEST=$(GOCMD) test
 GOGET=$(GOCMD) get
 
-GOASSETBUILDER=$(GOPATH)/go-assets-builder
+GOASSETBUILDER=go-assets-builder
 
 # For compatibility
 ifeq ($(OS),Windows_NT)
