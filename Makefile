@@ -25,7 +25,7 @@ ifeq ($(OS),Windows_NT)
 	BINARYNAME = $(NAME).exe
 	RM = cmd.exe /C del /Q
 	RMDIR = $(RM)
-	SRCS := $(shell cmd /c "dir /A-D /B /S | findstr ".*\.go[^\\]*$$"")
+	SRCS = $(subst $(CURDIR)/,,$(subst \,/,$(shell cmd.exe /C "dir *.go /b /a-d /s")))
 else
 	BINARYNAME = $(NAME)
 	RM = rm -f
@@ -34,16 +34,20 @@ else
 endif
 
 # Commands
+.PHONY: all medaka assets
+
 all: medaka
 
 medaka: app/medaka
 
-app/medaka: $(SRCS)
-	@echo "Ready assets..."
-	@cd $(ASSETPATH);\
-		$(GOASSETBUILDER) --package=data ./static/ > assets.go
+app/medaka: $(SRCS) assets
 	@echo "Building..."
 	@$(GOBUILD) -a -tags netgo -installsuffix netgo $(LDFLAGS) -o $(BINARYNAME) $(BUILDPATH)
+
+assets:
+	@echo "Ready assets..."
+	@cd $(ASSETPATH); \
+		$(GOASSETBUILDER) --package=data ./static/ > assets.go
 
 .PHONY: install clean test deps cross-build
 
@@ -61,11 +65,10 @@ test:
 
 deps:
 	dep ensure
-	@echo "Building go-assets-builder..."
-	@cd ./vendor/github.com/jessevdk/go-assets-builder
-	@$(GOINSTALL) .
+	@echo "Installing go-assets-builder..."
+	@cd ./vendor/github.com/jessevdk/go-assets-builder && $(GOINSTALL) .
 
-cross-build: src
+cross-build: assets
 	@echo "Ready..."
 	@$(GOGET) github.com/mitchellh/gox
 
@@ -75,4 +78,3 @@ cross-build: src
 		-arch="386 amd64" \
 		-output "dist/{{.OS}}_{{.Arch}}/{{.Dir}}" \
 		$(BUILDPATH)
-#

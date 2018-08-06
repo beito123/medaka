@@ -1,0 +1,55 @@
+# Thank you! From: https://hori-ryota.com/blog/circleci-golang-buildcache-key/
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.10.3
+    
+    working_directory: /go/src/github.com/beito123/medaka
+
+    #Build
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - vendor-{{ checksum "Gopkg.toml" }}
+      - restore_cache:
+          keys:
+            - deps
+      - run:
+          name: Resolve dependencies
+          command: |
+            if [ ! -d vendor ]; then
+              if ! type dep >/dev/null 2>&1; then
+                go get github.com/golang/dep/cmd/dep
+              fi
+              make deps
+            fi
+      - save_cache:
+          key: vendor-{{ checksum "Gopkg.toml" }}
+          paths:
+            - vendor
+      - save_cache:
+          key: deps
+          paths:
+            - /go/bin/dep
+            - /go/bin/go-assets-builder
+      - restore_cache:
+          keys:
+            - build-cache-{{ .Branch }}--
+            - build-cache-master--
+            - build-cache-
+      - run:
+          name: go vet
+          command: go vet ./...
+      - run:
+          name: build
+          command: make cross-build
+      - store_artifacts:
+          path: ./dist/
+          destination: dist/
+      - save_cache:
+          key: build-cache-{{ .Branch }}--{{ .Revision }}
+          paths:
+              - /tmp/go/cache
