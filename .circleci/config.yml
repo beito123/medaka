@@ -14,6 +14,8 @@ jobs:
       - restore_cache:
           keys:
             - vendor-{{ checksum "Gopkg.toml" }}
+      - restore_cache:
+          keys:
             - deps
       - run:
           name: Resolve dependencies
