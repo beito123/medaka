@@ -13,7 +13,7 @@ These codes are written in Go based on [PocketMine-MP](https://www.github.com/p
 
 ## Build
 
-If you haven't dep, Run the under cmd to install dep.
+If you haven't dep, Run the under command to get dep.
 
 ```
 $ go get -u github.com/golang/dep/cmd/dep
@@ -24,15 +24,19 @@ Run the under commands to build.
 ```
 $ go get github.com/beito123/medaka
 $ cd $GOPATH/github.com/beito123/medaka
-make
+$ make deps
+$ make
 ```
+
+- Manual build: [Link](https://gist.github.com/beito123/609f4bf2f25f8c24541e8bb47c78cb92)
 
 ### Support environment
 
 Windows, Linux, (maybe it work on Mac...)
 
+
 ```
-Go(>v1.10), Dep(latest)
+Go(v1.10^), Dep(v0.5.0), GNU make(v4.2) or GnuWin32(v3.81)
 ```
 
 ## License
@@ -58,43 +62,39 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Thank you so much!
 
-### PocketMine-MP
+### Based on
 
-This project is based on PocketMine-MP!
-
-- Server [PocketMine-MP](https://www.github.com/pmmp)
-
-- Network for Raknet : [Raklib](https://github.com/pmmp/RakLib)
+- [PocketMine-MP](https://www.github.com/pmmp) (by [PMMP-Team](https://github.com/pmmp) License:[LGPLv3](https://www.gnu.org/licenses/lgpl-3.0.ja.html)): A MCBE server software in PHP
 
 ### Library
 
-- Logger : [Logrus](https://github.com/Sirupsen/logrus)
+- [Logrus](https://github.com/Sirupsen/logrus) (by [sirupsen](https://github.com/sirupsen) License: [MIT License](https://opensource.org/licenses/mit-license.php)): A logger library
 
-- Color Console for Windows : [go-colorable](https://github.com/mattn/go-colorable)
+- [go-colorable](https://github.com/mattn/go-colorable) (by [mattn](https://github.com/mattn) License: [MIT License](https://opensource.org/licenses/mit-license.php)): Color Console for Windows
 
-- Load and Save configs : [Viper](https://github.com/spf13/viper)
+- [Viper](https://github.com/spf13/viper) (by [spf13](https://github.com/spf13) License: [MIT License](https://opensource.org/licenses/mit-license.php)): Internal process in Config
 
-- Safe cast for Config : [cast](https://github.com/spf13/cast)
+- [cast](https://github.com/spf13/cast) (by [spf13](https://github.com/spf13) License: [MIT License](https://opensource.org/licenses/mit-license.php)): Safe casting for Config
 
-- Embed assets : [go-assets](https://github.com/jessevdk/go-assets)
+- [go-assets](https://github.com/jessevdk/go-assets) (by [jessevdk](https://github.com/jessevdk) License: [BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)): Embed assets
 
-- Ordered Map : [orderedmap](https://github.com/secnot/orderedmap)
+- [orderedmap](https://github.com/secnot/orderedmap) (by [secnot](https://github.com/secnot) License: [MIT License](https://opensource.org/licenses/mit-license.php)): A ordered map
 
 ### Design reference
 
-- [Go app of Kayac](https://github.com/kayac?language=go)
+- [Apps of Kayac](https://github.com/kayac?language=go)
 
 ### Tools
 
-- Dependency resolution : [Dep](https://github.com/golang/dep)
+- [Dep](https://github.com/golang/dep) (by [golang-team](https://github.com/golang/)): Dependency resolution
 
 ### Other
 
-- Other, Developers who are providing codes for Medaka.
+- Developers who are providing codes for Medaka.
 
 - And you
 
-# Medaka (Japanese)
+## Medaka (Japanese)
 
 ![Image](https://cldup.com/WxrSZhzMED.png)
 
@@ -107,7 +107,7 @@ This project is based on PocketMine-MP!
 
 これらのコードは [PocketMine-MP](https://www.github.com/pmmp) (by [PocketMine-Team](https://www.github.com/pmmp)) を元にGoで書かれています。
 
-## ビルド
+### ビルド
 
 Depがない場合は、以下のコマンドを実行してDepをインストールください。
 
@@ -120,18 +120,21 @@ $ go get -u github.com/golang/dep/cmd/dep
 ```
 $ go get github.com/beito123/medaka
 $ cd $GOPATH/github.com/beito123/medaka
-make
+$ make deps
+$ make
 ```
 
-### サポート環境
+- 手動ビルド: [Link](https://gist.github.com/beito123/609f4bf2f25f8c24541e8bb47c78cb92)
+
+#### サポート環境
 
 Windows, Linux, (多分Macでも動くはず...)
 
 ```
-Go(>v1.10), Dep(latest)
+Go(v1.10^), Dep(v0.5.0), GNU make(v4.2) or GnuWin32(v3.81)
 ```
 
-## ライセンス
+### ライセンス
 
 このプロジェクトはLGPLv3ライセンス下にあります。
 
@@ -154,38 +157,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Thank you so much!
 
-### PocketMine-MP
+### Base
 
-このプロジェクトはPocketMine-MPを元にできています！
-
-- サーバー : [PocketMine-MP](https://www.github.com/pmmp)
-
-- Raknetのためのネットワーク : [Raklib](https://github.com/pmmp/RakLib)
+- [PocketMine-MP](https://www.github.com/pmmp) (by [PMMP-Team](https://github.com/pmmp) License:[LGPLv3](https://www.gnu.org/licenses/lgpl-3.0.ja.html)): PHPで書かれたMCBEサーバー
 
 ### ライブラリ
 
-- コンソールへのログの管理 : [Logrus](https://github.com/Sirupsen/logrus)
+- [Logrus](https://github.com/Sirupsen/logrus) (by [sirupsen](https://github.com/sirupsen) License: [MIT License](https://opensource.org/licenses/mit-license.php)): Loggerライブラリ
 
-- Windowsでのコンソールの色付け : [go-colorable](https://github.com/mattn/go-colorable)
+- [go-colorable](https://github.com/mattn/go-colorable) (by [mattn](https://github.com/mattn) License: [MIT License](https://opensource.org/licenses/mit-license.php)): Windowsコンソールに色を付けるライブラリ
 
-- Configの読み書き : [Viper](https://github.com/spf13/viper)
+- [Viper](https://github.com/spf13/viper) (by [spf13](https://github.com/spf13) License: [MIT License](https://opensource.org/licenses/mit-license.php)): Configの内部処理
 
-- Configの安全なキャスト : [cast](https://github.com/spf13/cast)
+- [cast](https://github.com/spf13/cast) (by [spf13](https://github.com/spf13) License: [MIT License](https://opensource.org/licenses/mit-license.php)): 安全なキャストができるライブラリ
 
-- リソースの埋込み : [go-assets](https://github.com/jessevdk/go-assets)
+- [go-assets](https://github.com/jessevdk/go-assets) (by [jessevdk](https://github.com/jessevdk) License: [BSD-3-Clause](https://opensource.org/licenses/BSD-3-Clause)): ファイルの埋め込み
 
-- 順序付きMap : [orderedmap](https://github.com/secnot/orderedmap)
+- [orderedmap](https://github.com/secnot/orderedmap) (by [secnot](https://github.com/secnot) License: [MIT License](https://opensource.org/licenses/mit-license.php)): 順序付きマップ
 
 ### 設計の参考
 
-- [KayacのGo製のアプリケーション](https://github.com/kayac?language=go)
+- [Apps of Kayac](https://github.com/kayac?language=go)
 
-### Tools
+### ツール
 
-- 依存関係の解決 : [Dep](https://github.com/golang/dep)
+- [Dep](https://github.com/golang/dep) (by [golang-team](https://github.com/golang/)): 依存関係の解決
 
 ### その他
 
-- その他、コードを提供してくださっている開発者の方々
+- コードを提供してくださっている開発者の方々
 
 - And you
