@@ -23,7 +23,7 @@ Run the under commands to build.
 
 ```
 $ go get -u github.com/beito123/medaka
-$ cd $GOPATH/github.com/beito123/medaka
+$ cd $GOPATH/src/github.com/beito123/medaka
 $ make deps
 $ make
 ```
@@ -119,7 +119,7 @@ $ go get -u github.com/golang/dep/cmd/dep
 
 ```
 $ go get -u github.com/beito123/medaka
-$ cd $GOPATH/github.com/beito123/medaka
+$ cd $GOPATH/src/github.com/beito123/medaka
 $ make deps
 $ make
 ```
