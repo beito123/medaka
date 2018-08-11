@@ -66,13 +66,6 @@ func (lang *Lang) Translate(text *Text) string {
 	}
 
 	for i, v := range text.Args {
-		if v[:1] == "%" { // %some.message
-			s := lang.config.GetString(v[1:], "")
-			if len(s) > 0 {
-				v = s
-			}
-		}
-
 		msg = strings.Replace(msg, "{%"+strconv.Itoa(i)+"}", v, -1)
 	}
 

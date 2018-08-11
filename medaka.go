@@ -17,16 +17,16 @@ import (
 )
 
 var (
-	//Version is the project's version.
-	Version string
-
 	//Revision is the project's revision
-	Revision string
+	Revision string = "none"
 )
 
 const (
 	//Name is the project name.
 	Name = "Medaka"
+
+	//Version is the project's version.
+	Version = "1.0.0"
 
 	//APIVersion is Medaka API version.
 	//Notice: Medaka doesn't support plugins now.

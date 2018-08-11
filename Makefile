@@ -1,9 +1,8 @@
 #Package info
 NAME := medaka
-VERSION := v1.0.0
 REVISION := $(shell git rev-parse --short HEAD || echo "unsupported")
 
-LDFLAGS = -ldflags="-s -w -X \"github.com/beito123/medaka.Version=$(VERSION)\" -X \"github.com/beito123/medaka.Revision=$(REVISION)\" -extldflags \"-static\""
+LDFLAGS = -ldflags="-s -w -X \"github.com/beito123/medaka.Revision=$(REVISION)\" -extldflags \"-static\""
 # LDFLAGS := -ldflags=" -extldflags \"-static\""
 
 #Build path
