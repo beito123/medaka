@@ -13,11 +13,11 @@ package scheduler
 
 import (
 	"errors"
-	"math"
 	"sort"
 	"time"
 
 	"github.com/beito123/medaka"
+	"github.com/beito123/medaka/util"
 )
 
 var (
@@ -61,12 +61,6 @@ func (sche *Scheduler) Shutdonw() {
 	sche.CancelAllTasks()
 }
 
-func (sche *Scheduler) bumpNextID() (next int) {
-	next = sche.nextID
-	sche.nextID = (sche.nextID % math.MaxInt32) + 1
-	return next
-}
-
 func (sche *Scheduler) ScheduleFunc(f func(tick time.Time), delay time.Duration, period time.Duration) (*TaskHandler, error) {
 	return sche.addTask(&closureTask{
 		BaseTask: new(BaseTask),
@@ -106,7 +100,7 @@ func (sche *Scheduler) addTask(task Task, delay time.Duration, period time.Durat
 	}
 
 	return &TaskHandler{
-		id:       sche.bumpNextID(),
+		id:       util.Bump(&sche.nextID),
 		delay:    delay,
 		period:   period,
 		task:     task,

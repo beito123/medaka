@@ -1,9 +1,5 @@
 package async
 
-import (
-	"sync"
-)
-
 /*
 	Medaka
 
@@ -14,6 +10,10 @@ import (
 	the Free Software Foundation, either version 3 of the License, or
 	(at your option) any later version.
 */
+
+import (
+	"sync"
+)
 
 type Task interface {
 	IsCanceled() bool

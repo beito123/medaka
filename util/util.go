@@ -12,6 +12,7 @@ package util
 */
 
 import (
+	"math"
 	"os"
 	"os/exec"
 	"runtime"
@@ -96,4 +97,10 @@ func convertNewline(str, nlcode string) string {
 		"\r", nlcode,
 		"\n", nlcode,
 	).Replace(str)
+}
+
+func Bump(id *int) (next int) {
+	next = *id
+	*id = (*id % math.MaxInt32) + 1
+	return next
 }

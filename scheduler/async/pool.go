@@ -12,8 +12,9 @@ package async
 */
 
 import (
-	"math"
 	"sort"
+
+	"github.com/beito123/medaka/util"
 )
 
 type Workers []*Worker
@@ -56,19 +57,13 @@ type Pool struct {
 	nextID int
 }
 
-func (p *Pool) bumpNextID() (next int) {
-	next = p.nextID
-	p.nextID = (p.nextID % math.MaxInt32) + 1
-	return next
-}
-
 func (p *Pool) Count() int {
 	return len(p.jobs)
 }
 
 func (p *Pool) QueueTask(task Task) *Job {
 	job := &Job{
-		id:        p.bumpNextID(),
+		id:        util.Bump(&p.nextID),
 		task:      task,
 		canceled:  false,
 		completed: false,
