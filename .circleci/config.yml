@@ -41,6 +41,9 @@ jobs:
             - build-cache-master--
             - build-cache-
       - run:
+          name: generate assets
+          command: make assets
+      - run:
           name: go vet
           command: go vet ./...
       - run:
