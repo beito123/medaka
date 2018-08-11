@@ -6,7 +6,7 @@ LDFLAGS = -ldflags="-s -w -X \"github.com/beito123/medaka.Revision=$(REVISION)\"
 # LDFLAGS := -ldflags=" -extldflags \"-static\""
 
 #Build path
-BUILDPATH := ./app/medaka/
+BUILDPATH := ./cmd/medaka/
 ASSETPATH := ./data
 
 # Go commands
@@ -37,9 +37,9 @@ endif
 
 all: medaka
 
-medaka: app/medaka
+medaka: cmd/medaka
 
-app/medaka: $(SRCS) assets
+cmd/medaka: $(SRCS) assets
 	@echo "Building..."
 	@$(GOBUILD) -a -tags netgo -installsuffix netgo $(LDFLAGS) -o $(BINARYNAME) $(BUILDPATH)
 

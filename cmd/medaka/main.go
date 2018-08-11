@@ -1,4 +1,4 @@
-package permission
+package main
 
 /*
 	Medaka
@@ -11,4 +11,8 @@ package permission
 	(at your option) any later version.
 */
 
-//TODO: write
+import "fmt"
+
+func main() {
+	fmt.Println("Hello world!")
+}
