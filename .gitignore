@@ -1,5 +1,6 @@
 #Ignore files
 *.exe
+/data/assets.go
 
 #Ignore dirs
 /dist/
