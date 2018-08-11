@@ -262,6 +262,27 @@ func (ser *Server) tick(tick time.Time) bool {
 		return false
 	}
 
+	//update network
+
+	//update plugins
+
+	ser.asyncPool.Update()
+
+	//Update players and levels
+
+	//Update Title
+	//Update network name(player count etc...)
+	//Update network statistics
+
+	//Update Query
+
+	//Autosave
+
+	//Clear level cache
+
+	//TPS
+	//USE
+
 	ser.checkConsole()
 
 	return true
