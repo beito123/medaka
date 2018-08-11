@@ -221,7 +221,7 @@ func (log *Logger) Logf(level Level, format string, args ...interface{}) {
 		prefix += log.Prefix + " "
 	}
 
-	log.Out.Printf(prefix+format+Reset, args)
+	log.Out.Printf(prefix+format+Reset, args...)
 }
 
 func (log *Logger) New() *Logger {
