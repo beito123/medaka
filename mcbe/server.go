@@ -291,6 +291,10 @@ func (ser *Server) tick(tick time.Time) bool {
 func (ser *Server) checkConsole() {
 	//TODO: writes simple command system
 	text := ser.CommandReader.Line()
+	
+	if len(text) == 0 {
+		return
+	}
 
 	exp := strings.Split(text, " ")
 
