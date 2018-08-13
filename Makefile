@@ -6,7 +6,7 @@ LDFLAGS = -ldflags="-s -w -X \"github.com/beito123/medaka.Revision=$(REVISION)\"
 # LDFLAGS := -ldflags=" -extldflags \"-static\""
 
 #Build path
-BUILDPATH := ./cmd/medaka/
+BUILDPATH := ./app/medaka/
 ASSETPATH := ./data
 
 # Go commands
